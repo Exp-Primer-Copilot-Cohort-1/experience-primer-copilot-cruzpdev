@@ -1,83 +1,70 @@
-// Create web server using express
-const express = require('express');
-const bodyParser = require('body-parser');
+// create a web server that can listen to requests on port 3000
+const express = require("express");
 const app = express();
 const port = 3000;
 
-// Use body-parser to parse application/x-www-form-urlencoded format
-app.use(bodyParser.urlencoded({ extended: false }));
+// import the comments from the comments.js file
+const { comments } = require("./data/comments");
 
-// Use body-parser to parse application/json format
-app.use(bodyParser.json());
+// Path: comments/:id
+// create a route that returns a single comment object based on the id in the path
+app.get("/comments/:id", (req, res) => {
+  const id = req.params.id;
+  const foundComment = comments.find((comment) => comment._id === Number(id));
+  res.json(foundComment);
+});
 
-// Import comments.js
-const comments = require('./comments.js');
-
-// GET /comments
-app.get('/comments', (req, res) => {
+// Path: comments
+// create a route that returns all of the comments
+app.get("/comments", (req, res) => {
   res.json(comments);
 });
 
-// POST /comments
-app.post('/comments', (req, res) => {
-  const newComment = req.body;
-  comments.push(newComment);
-  res.json(newComment);
+// Path: comments/search
+// create a route that returns all of the comments that match the searchTerm in the query string
+app.get("/comments/search", (req, res) => {
+  const searchTerm = req.query.searchTerm;
+  const foundComments = comments.filter((comment) =>
+    comment.body.includes(searchTerm)
+  );
+  res.json(foundComments);
 });
 
-// GET /comments/:id
-app.get('/comments/:id', (req, res) => {
-  const id = req.params.id;
-  const comment = comments.find(comment => comment.id == id);
-  res.json(comment);
+// Path: comments
+// create a route that returns all of the comments based on the username in the path
+app.get("/comments/:username", (req, res) => {
+  const username = req.params.username;
+  const foundComments = comments.filter((comment) =>
+    comment.username.includes(username)
+  );
+  res.json(foundComments);
 });
 
-// DELETE /comments/:id
-app.delete('/comments/:id', (req, res) => {
-  const id = req.params.id;
-  const commentIndex = comments.findIndex(comment => comment.id == id);
-  comments.splice(commentIndex, 1);
-  res.json({ deleted: true });
+// Path: comments
+// create a route that returns all of the comments based on the username in the path
+app.get("/comments/:username", (req, res) => {
+  const username = req.params.username;
+  const foundComments = comments.filter((comment) =>
+    comment.username.includes(username)
+  );
+  res.json(foundComments);
 });
 
-// PUT /comments/:id
-app.put('/comments/:id', (req, res) => {
-  const id = req.params.id;
-  const commentIndex = comments.findIndex(comment => comment.id == id);
-  const newComment = { ...comments[commentIndex], ...req.body };
-  comments.splice(commentIndex, 1, newComment);
-  res.json(newComment);
+// Path: comments
+// create a route that returns all of the comments based on the username in the path
+app.get("/comments/:username", (req, res) => {
+  const username = req.params.username;
+  const foundComments = comments.filter((comment) =>
+    comment.username.includes(username)
+  );
+  res.json(foundComments);
 });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
+// Path: comments
+// create a route that returns all of the comments based on the username in the path
+app.get("/comments/:username", (req, res) => {
+  const username = req.params.username;
+  const foundComments = comments.filter((comment))
 
-// Path: comments.js
-// Array of comments
-const comments = [
-  {
-    id: 1,
-    username: 'John',
-    comment: 'Hello',
-  },
-  {
-    id: 2,
-    username: 'James',
-    comment: 'Hello World',
-  },
-  {
-    id: 3,
-    username: 'Mary',
-    comment: 'Hello Universe',
-  },
-];
-
-module.exports = comments;
-```
-
-## 3.3. Express Router
-
-- Express Router is a class to create modular mountable route handlers
-- It is like a mini Express application, without all the bells and whistles of an express application
-- Express Router is useful for creating modular route handlers to be used in
+}
+)
